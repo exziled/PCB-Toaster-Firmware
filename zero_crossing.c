@@ -5,6 +5,8 @@
 #include "driverlib/rom_map.h"
 #include "driverlib/sysctl.h"
 
+#include "triac_mgmt.h"
+
 void __int_ZERO(void)
 {
     uint32_t status = GPIOIntStatus(GPIO_PORTN_BASE, true);
@@ -19,6 +21,8 @@ void __int_ZERO(void)
             (MAP_GPIOPinRead(GPIO_PORTN_BASE, GPIO_PIN_0) ^
              GPIO_PIN_0));
 
+    triac_delay(&triac_map[0]);
+    //trigger_triac_timers();
 
     return;
 }
@@ -29,8 +33,7 @@ void init_zero_crossing(void)
 	SysCtlDelay(3);
 
 	// Configure GPIO for Interrupts
-	GPIOPinTypeGPIOInput(GPIO_PORTN_BASE, GPIO_PIN_4);
-	GPIOPadConfigSet(GPIO_PORTN_BASE ,GPIO_PIN_4, GPIO_STRENGTH_2MA,GPIO_PIN_TYPE_STD_WPU);
+	MAP_GPIOPinTypeGPIOInput(GPIO_PORTN_BASE, GPIO_PIN_4);
 	MAP_GPIOIntTypeSet(GPIO_PORTN_BASE, GPIO_PIN_4, GPIO_FALLING_EDGE);
 	GPIOIntRegister(GPIO_PORTN_BASE, __int_ZERO);
 	MAP_GPIOIntEnable(GPIO_PORTN_BASE, GPIO_INT_PIN_4);

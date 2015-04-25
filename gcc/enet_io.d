@@ -46,4 +46,5 @@ gcc/enet_io.o: enet_io.c \
  /usr/include/newlib/machine/time.h /usr/include/newlib/sys/types.h \
  /usr/include/newlib/machine/types.h \
  ../../../../third_party/lwip-1.4.1/apps/httpserver_raw/httpd.h \
- ../drivers/pinout.h io.h zero_crossing.h
+ ../drivers/pinout.h io.h zero_crossing.h triac_mgmt.h \
+ ../../../../inc/hw_timer.h

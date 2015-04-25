@@ -44,6 +44,7 @@
 #include "io.h"
 
 #include "zero_crossing.h"
+#include "triac_mgmt.h"
 
 //! ../../../../tools/bin/makefsfile -i fs -o io_fsdata.h -r -h -q
 
@@ -401,6 +402,12 @@ int main(void)
 
 
     init_zero_crossing();
+
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+    init_triac(&triac_map[0]);
+    init_triac(&triac_map[1]);
+
+    init_triac_timer();
 
     //
     // Loop forever, processing the on-screen animation.  All other work is

@@ -159,7 +159,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // I2C4 Master and Slave
     IntDefaultHandler,                      // I2C5 Master and Slave
     IntDefaultHandler,                      // GPIO Port M
-    __int_ZERO,                             // GPIO Port N
+    IntDefaultHandler,                             // GPIO Port N
     0,                                      // Reserved
     IntDefaultHandler,                      // Tamper
     IntDefaultHandler,                      // GPIO Port P (Summary or P0)

@@ -80,6 +80,7 @@ ${COMPILER}:
 #
 ${COMPILER}/enet_io.axf: ${COMPILER}/enet_io.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/zero_crossing.o
+${COMPILER}/enet_io.axf: ${COMPILER}/triac_mgmt.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/httpd.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/io.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/io_fs.o
