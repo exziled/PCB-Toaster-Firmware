@@ -5,6 +5,7 @@
 #include "inc/hw_types.h"
 
 
+// Interrupts
 void __triac_int_a(void)
 {
     uint32_t status = TimerIntStatus(TIMER4_BASE, true);
@@ -21,6 +22,7 @@ void __triac_int_b(void)
 	trigger_triac(&triac_map[1]);
 }
 
+// Initializers
 void init_triac(volatile TRIAC_T * triac)
 {
 	// Set TRIAC off and configure as output
@@ -29,20 +31,6 @@ void init_triac(volatile TRIAC_T * triac)
 
 	// default timer to 0 so it doesn't count
 	// HWREG(triac->delay_config) = 0;
-}
-
-void trigger_triac(volatile TRIAC_T * triac)
-{
-	// Pulse Triac
-	GPIOPinWrite(triac->triac_port, triac->triac_pin, triac->triac_pin);
-	SysCtlDelay(400);	// Delay 100 Clock Cycles
-	GPIOPinWrite(triac->triac_port, triac->triac_pin, 0);
-}
-
-void triac_delay(volatile TRIAC_T * triac)
-{
-	TimerLoadSet(triac->timer_base, triac->timer_chan, 22241);
-	TimerEnable(triac->timer_base, triac->timer_chan);
 }
 
 void init_triac_timer(void)
@@ -63,6 +51,29 @@ void init_triac_timer(void)
 	TimerIntRegister(TIMER4_BASE, TIMER_B, __triac_int_b);
 }
 
+// Modifiers
+
+// Do a TRIAC Pulse
+void trigger_triac(volatile TRIAC_T * triac)
+{
+	// Pulse Triac
+	GPIOPinWrite(triac->triac_port, triac->triac_pin, triac->triac_pin);
+	SysCtlDelay(400);	// Delay 100 Clock Cycles
+	GPIOPinWrite(triac->triac_port, triac->triac_pin, 0);
+}
+
+// Setup TRIAC Timers
+void triac_delay(volatile TRIAC_T * triac)
+{
+	// Map 0-100% duty cycle to relative timer values
+	uint16_t timer_val = (triac->duty_cycle - 100) * (TIMER_MAX - TIMER_MIN) / (100 - 0);
+
+	TimerLoadSet(triac->timer_base, triac->timer_chan, timer_val);
+	TimerEnable(triac->timer_base, triac->timer_chan);
+}
+
+
+// Not Used
 void trigger_triac_timers(void)
 {
 	TimerEnable(TIMER4_BASE, TIMER_BOTH);

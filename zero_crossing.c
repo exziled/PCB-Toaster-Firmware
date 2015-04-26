@@ -22,6 +22,7 @@ void __int_ZERO(void)
              GPIO_PIN_0));
 
     triac_delay(&triac_map[0]);
+    triac_delay(&triac_map[1]);
     //trigger_triac_timers();
 
     return;
@@ -34,7 +35,7 @@ void init_zero_crossing(void)
 
 	// Configure GPIO for Interrupts
 	MAP_GPIOPinTypeGPIOInput(GPIO_PORTN_BASE, GPIO_PIN_4);
-	MAP_GPIOIntTypeSet(GPIO_PORTN_BASE, GPIO_PIN_4, GPIO_FALLING_EDGE);
+	MAP_GPIOIntTypeSet(GPIO_PORTN_BASE, GPIO_PIN_4, GPIO_RISING_EDGE);
 	GPIOIntRegister(GPIO_PORTN_BASE, __int_ZERO);
 	MAP_GPIOIntEnable(GPIO_PORTN_BASE, GPIO_INT_PIN_4);
 }

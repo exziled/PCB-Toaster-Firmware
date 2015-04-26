@@ -45,6 +45,8 @@
 
 #include "zero_crossing.h"
 #include "triac_mgmt.h"
+#include "max31855.h"
+#include "driverlib/shamd5.h"
 
 //! ../../../../tools/bin/makefsfile -i fs -o io_fsdata.h -r -h -q
 
@@ -370,7 +372,7 @@ int main(void)
     //
     // Initialze the lwIP library, using DHCP.
     //
-    // lwIPInit(g_ui32SysClock, pui8MACArray, 0, 0, 0, IPADDR_USE_DHCP);
+    lwIPInit(g_ui32SysClock, pui8MACArray, 0, 0, 0, IPADDR_USE_DHCP);
 
     //
     // Setup the device locator service.
@@ -382,7 +384,10 @@ int main(void)
     //
     // Initialize a sample httpd server.
     //
-    //httpd_init();
+
+    SHAMD5ConfigSet(SHAMD5_BASE, SHAMD5_ALGO_SHA1);
+
+    httpd_init();
 
     //
     // Set the interrupt priorities.  We set the SysTick interrupt to a higher
@@ -408,6 +413,8 @@ int main(void)
     init_triac(&triac_map[1]);
 
     init_triac_timer();
+
+    initToasterTemp();
 
     //
     // Loop forever, processing the on-screen animation.  All other work is
@@ -436,5 +443,7 @@ int main(void)
         MAP_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_1,
                 (MAP_GPIOPinRead(GPIO_PORTN_BASE, GPIO_PIN_1) ^
                  GPIO_PIN_1));
+
+        UARTprintf("Temperature %d\r\n", getToasterTemp());
     }
 }

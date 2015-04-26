@@ -55,6 +55,7 @@ IPATH+=../../../../third_party/lwip-1.4.1/apps
 IPATH+=../../../../third_party/lwip-1.4.1/ports/tiva-tm4c129/include
 IPATH+=../../../../third_party/lwip-1.4.1/src/include
 IPATH+=../../../../third_party/lwip-1.4.1/src/include/ipv4
+IPATH+=../../../../third_party/lwip-1.4.1/src/include/lwip
 IPATH+=../../../../third_party
 
 #
@@ -81,6 +82,8 @@ ${COMPILER}:
 ${COMPILER}/enet_io.axf: ${COMPILER}/enet_io.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/zero_crossing.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/triac_mgmt.o
+${COMPILER}/enet_io.axf: ${COMPILER}/max31855.o
+${COMPILER}/enet_io.axf: ${COMPILER}/websocket_server.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/httpd.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/io.o
 ${COMPILER}/enet_io.axf: ${COMPILER}/io_fs.o
