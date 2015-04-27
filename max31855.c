@@ -6,6 +6,8 @@
 #include "driverlib/pin_map.h"
 #include "inc/hw_memmap.h"
 
+#include "utils/uartstdio.h"
+
 void initToasterTemp(void)
 {
 
@@ -56,6 +58,16 @@ uint16_t getToasterTemp(void)
 	// Detecting thermocouple errors
 	if (output & 0x1 || output & 0x2 || output & 0x04)
 	{
+		if (output & 0x1){
+			UARTprintf("Thermocuple: OC Fault\r\n");		// Open Circuit
+		} else if (output & 0x02) {
+			UARTprintf("Thermocuple: SCG Fault\r\n");	// Short circuit to ground
+		} else if (output & 0x04) {
+			UARTprintf("Thermocuple: SCV Fault\r\n");	// Shirt circuit VCC
+		} else {
+			UARTprintf("Thermocuple: General Fault\r\n");
+		}
+
 		return 0;
 	}
 

@@ -1,0 +1,496 @@
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:175:55: warning: ISO C forbids forward references to 'enum' types [-Wpedantic]
+ static void event_callback(struct netconn *conn, enum netconn_evt evt, u16_t len);
+                                                       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:175:55: warning: 'enum netconn_evt' declared inside parameter list [enabled by default]
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:175:55: warning: its scope is only this definition or declaration, which is probably not what you want [enabled by default]
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'alloc_socket':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:262:39: error: dereferencing pointer to incomplete type
+       sockets[i].sendevent  = (newconn->type == NETCONN_TCP ? (accepted != 0) : 1);
+                                       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:262:49: error: 'NETCONN_TCP' undeclared (first use in this function)
+       sockets[i].sendevent  = (newconn->type == NETCONN_TCP ? (accepted != 0) : 1);
+                                                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:262:49: note: each undeclared identifier is reported only once for each function it appears in
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'free_socket':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:300:7: warning: implicit declaration of function 'netbuf_delete' [-Wimplicit-function-declaration]
+       netbuf_delete((struct netbuf *)lastdata);
+       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_accept':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:329:3: warning: implicit declaration of function 'netconn_is_nonblocking' [-Wimplicit-function-declaration]
+   if (netconn_is_nonblocking(sock->conn) && (sock->rcvevent <= 0)) {
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:336:3: warning: implicit declaration of function 'netconn_accept' [-Wimplicit-function-declaration]
+   err = netconn_accept(sock->conn, &newconn);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:339:5: warning: implicit declaration of function 'netconn_type' [-Wimplicit-function-declaration]
+     if (netconn_type(sock->conn) != NETCONN_TCP) {
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:339:37: error: 'NETCONN_TCP' undeclared (first use in this function)
+     if (netconn_type(sock->conn) != NETCONN_TCP) {
+                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:348:3: warning: implicit declaration of function 'netconn_set_noautorecved' [-Wimplicit-function-declaration]
+   netconn_set_noautorecved(newconn, 1);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:351:3: warning: implicit declaration of function 'netconn_peer' [-Wimplicit-function-declaration]
+   err = netconn_peer(newconn, &naddr, &port);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:354:5: warning: implicit declaration of function 'netconn_delete' [-Wimplicit-function-declaration]
+     netconn_delete(newconn);
+     ^
+In file included from ../../../../third_party/lwip-1.4.1/src/include/lwip/opt.h:46:0,
+                 from ../../../../utils/lwiplib.h:44,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:383:61: error: dereferencing pointer to incomplete type
+   LWIP_ASSERT("newconn->callback == event_callback", newconn->callback == event_callback);
+                                                             ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/debug.h:66:51: note: in definition of macro 'LWIP_ASSERT'
+ #define LWIP_ASSERT(message, assertion) do { if(!(assertion)) \
+                                                   ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:392:42: error: dereferencing pointer to incomplete type
+   nsock->rcvevent += (s16_t)(-1 - newconn->socket);
+                                          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:393:10: error: dereferencing pointer to incomplete type
+   newconn->socket = newsock;
+          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_bind':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:431:3: warning: implicit declaration of function 'netconn_bind' [-Wimplicit-function-declaration]
+   err = netconn_bind(sock->conn, &local_addr, ntohs(local_port));
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_close':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:458:42: error: 'NETCONN_TCP' undeclared (first use in this function)
+     is_tcp = netconn_type(sock->conn) == NETCONN_TCP;
+                                          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_connect':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:490:5: warning: implicit declaration of function 'netconn_disconnect' [-Wimplicit-function-declaration]
+     err = netconn_disconnect(sock->conn);
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:502:5: warning: implicit declaration of function 'netconn_connect' [-Wimplicit-function-declaration]
+     err = netconn_connect(sock->conn, &remote_addr, ntohs(remote_port));
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_listen':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:540:3: warning: implicit declaration of function 'netconn_listen_with_backlog' [-Wimplicit-function-declaration]
+   err = netconn_listen_with_backlog(sock->conn, (u8_t)backlog);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:544:37: error: 'NETCONN_TCP' undeclared (first use in this function)
+     if (netconn_type(sock->conn) != NETCONN_TCP) {
+                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_recvfrom':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:587:11: warning: implicit declaration of function 'netconn_recved' [-Wimplicit-function-declaration]
+           netconn_recved(sock->conn, (u32_t)off);
+           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:599:39: error: 'NETCONN_TCP' undeclared (first use in this function)
+       if (netconn_type(sock->conn) == NETCONN_TCP) {
+                                       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:600:9: warning: implicit declaration of function 'netconn_recv_tcp_pbuf' [-Wimplicit-function-declaration]
+         err = netconn_recv_tcp_pbuf(sock->conn, (struct pbuf **)&buf);
+         ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:602:9: warning: implicit declaration of function 'netconn_recv' [-Wimplicit-function-declaration]
+         err = netconn_recv(sock->conn, (struct netbuf **)&buf);
+         ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:632:33: error: dereferencing pointer to incomplete type
+       p = ((struct netbuf *)buf)->p;
+                                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:673:11: warning: implicit declaration of function 'netconn_getaddr' [-Wimplicit-function-declaration]
+           netconn_getaddr(sock->conn, addr, &port, 0);
+           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:675:11: warning: implicit declaration of function 'netbuf_fromaddr' [-Wimplicit-function-declaration]
+           addr = netbuf_fromaddr((struct netbuf *)buf);
+           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:675:16: warning: assignment makes pointer from integer without a cast [enabled by default]
+           addr = netbuf_fromaddr((struct netbuf *)buf);
+                ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:676:11: warning: implicit declaration of function 'netbuf_fromport' [-Wimplicit-function-declaration]
+           port = netbuf_fromport((struct netbuf *)buf);
+           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_send':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:769:17: error: dereferencing pointer to incomplete type
+   if (sock->conn->type != NETCONN_TCP) {
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:769:27: error: 'NETCONN_TCP' undeclared (first use in this function)
+   if (sock->conn->type != NETCONN_TCP) {
+                           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:778:17: error: 'NETCONN_COPY' undeclared (first use in this function)
+   write_flags = NETCONN_COPY |
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:779:31: error: 'NETCONN_MORE' undeclared (first use in this function)
+     ((flags & MSG_MORE)     ? NETCONN_MORE      : 0) |
+                               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:780:31: error: 'NETCONN_DONTBLOCK' undeclared (first use in this function)
+     ((flags & MSG_DONTWAIT) ? NETCONN_DONTBLOCK : 0);
+                               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:782:3: warning: implicit declaration of function 'netconn_write_partly' [-Wimplicit-function-declaration]
+   err = netconn_write_partly(sock->conn, data, size, write_flags, &written);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_sendto':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:799:17: error: storage size of 'buf' isn't known
+   struct netbuf buf;
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:807:17: error: dereferencing pointer to incomplete type
+   if (sock->conn->type == NETCONN_TCP) {
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:807:27: error: 'NETCONN_TCP' undeclared (first use in this function)
+   if (sock->conn->type == NETCONN_TCP) {
+                           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:933:3: warning: implicit declaration of function 'netbuf_ref' [-Wimplicit-function-declaration]
+   err = netbuf_ref(&buf, data, short_size);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:937:5: warning: implicit declaration of function 'netconn_send' [-Wimplicit-function-declaration]
+     err = netconn_send(sock->conn, &buf);
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:941:3: warning: implicit declaration of function 'netbuf_free' [-Wimplicit-function-declaration]
+   netbuf_free(&buf);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:799:17: warning: unused variable 'buf' [-Wunused-variable]
+   struct netbuf buf;
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_socket':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:958:5: warning: implicit declaration of function 'netconn_new_with_proto_and_callback' [-Wimplicit-function-declaration]
+     conn = netconn_new_with_proto_and_callback(NETCONN_RAW, (u8_t)protocol, event_callback);
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:958:48: error: 'NETCONN_RAW' undeclared (first use in this function)
+     conn = netconn_new_with_proto_and_callback(NETCONN_RAW, (u8_t)protocol, event_callback);
+                                                ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:963:5: warning: implicit declaration of function 'netconn_new_with_callback' [-Wimplicit-function-declaration]
+     conn = netconn_new_with_callback( (protocol == IPPROTO_UDPLITE) ?
+     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:964:18: error: 'NETCONN_UDPLITE' undeclared (first use in this function)
+                  NETCONN_UDPLITE : NETCONN_UDP, event_callback);
+                  ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:964:36: error: 'NETCONN_UDP' undeclared (first use in this function)
+                  NETCONN_UDPLITE : NETCONN_UDP, event_callback);
+                                    ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:969:38: error: 'NETCONN_TCP' undeclared (first use in this function)
+     conn = netconn_new_with_callback(NETCONN_TCP, event_callback);
+                                      ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:997:7: error: dereferencing pointer to incomplete type
+   conn->socket = i;
+       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_select':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1181:63: error: expected expression before ';' token
+       waitres = sys_arch_sem_wait(&select_cb.sem, msectimeout);
+                                                               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1213:20: error: 'SYS_ARCH_TIMEOUT' undeclared (first use in this function)
+     if (waitres == SYS_ARCH_TIMEOUT)  {
+                    ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: At top level:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1247:43: warning: ISO C forbids forward references to 'enum' types [-Wpedantic]
+ event_callback(struct netconn *conn, enum netconn_evt evt, u16_t len)
+                                           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1247:43: warning: 'enum netconn_evt' declared inside parameter list [enabled by default]
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1247:55: error: parameter 2 ('evt') has incomplete type
+ event_callback(struct netconn *conn, enum netconn_evt evt, u16_t len)
+                                                       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'event_callback':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1259:13: error: dereferencing pointer to incomplete type
+     s = conn->socket;
+             ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1267:15: error: dereferencing pointer to incomplete type
+       if (conn->socket < 0) {
+               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1268:20: error: 'NETCONN_EVT_RCVPLUS' undeclared (first use in this function)
+         if (evt == NETCONN_EVT_RCVPLUS) {
+                    ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1269:15: error: dereferencing pointer to incomplete type
+           conn->socket--;
+               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1274:15: error: dereferencing pointer to incomplete type
+       s = conn->socket;
+               ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1292:10: error: 'NETCONN_EVT_RCVMINUS' undeclared (first use in this function)
+     case NETCONN_EVT_RCVMINUS:
+          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1295:10: error: 'NETCONN_EVT_SENDPLUS' undeclared (first use in this function)
+     case NETCONN_EVT_SENDPLUS:
+          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1298:10: error: 'NETCONN_EVT_SENDMINUS' undeclared (first use in this function)
+     case NETCONN_EVT_SENDMINUS:
+          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1301:10: error: 'NETCONN_EVT_ERROR' undeclared (first use in this function)
+     case NETCONN_EVT_ERROR:
+          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_shutdown':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1381:37: error: 'NETCONN_TCP' undeclared (first use in this function)
+     if (netconn_type(sock->conn) != NETCONN_TCP) {
+                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1401:3: warning: implicit declaration of function 'netconn_shutdown' [-Wimplicit-function-declaration]
+   err = netconn_shutdown(sock->conn, shut_rx, shut_tx);
+   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_getsockopt':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1513:22: error: dereferencing pointer to incomplete type
+       if ((sock->conn->type != NETCONN_UDP) ||
+                      ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1513:32: error: 'NETCONN_UDP' undeclared (first use in this function)
+       if ((sock->conn->type != NETCONN_UDP) ||
+                                ^
+In file included from ../../../../utils/lwiplib.h:63:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1514:33: error: dereferencing pointer to incomplete type
+           ((udp_flags(sock->conn->pcb.udp) & UDP_FLAGS_UDPLITE) != 0)) {
+                                 ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:151:35: note: in definition of macro 'udp_flags'
+ #define          udp_flags(pcb) ((pcb)->flags)
+                                   ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1577:19: error: dereferencing pointer to incomplete type
+     if (sock->conn->type != NETCONN_TCP)
+                   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1577:29: error: 'NETCONN_TCP' undeclared (first use in this function)
+     if (sock->conn->type != NETCONN_TCP)
+                             ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1645:3: warning: implicit declaration of function 'tcpip_callback' [-Wimplicit-function-declaration]
+   tcpip_callback(lwip_getsockopt_internal, &data);
+   ^
+In file included from ../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:41:0,
+                 from ../../../../utils/lwiplib.h:62,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_getsockopt_internal':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1694:47: error: dereferencing pointer to incomplete type
+       *(int*)optval = ip_get_option(sock->conn->pcb.ip, optname);
+                                               ^
+../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip.h:205:37: note: in definition of macro 'ip_get_option'
+ #define ip_get_option(pcb, opt)   ((pcb)->so_options & (opt))
+                                     ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1700:7: warning: implicit declaration of function 'NETCONNTYPE_GROUP' [-Wimplicit-function-declaration]
+       switch (NETCONNTYPE_GROUP(sock->conn->type)) {
+       ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1700:43: error: dereferencing pointer to incomplete type
+       switch (NETCONNTYPE_GROUP(sock->conn->type)) {
+                                           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1701:12: error: 'NETCONN_RAW' undeclared (first use in this function)
+       case NETCONN_RAW:
+            ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1704:12: error: 'NETCONN_TCP' undeclared (first use in this function)
+       case NETCONN_TCP:
+            ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1707:12: error: 'NETCONN_UDP' undeclared (first use in this function)
+       case NETCONN_UDP:
+            ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1711:35: error: dereferencing pointer to incomplete type
+         *(int*)optval = sock->conn->type;
+                                   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1723:53: error: dereferencing pointer to incomplete type
+         sock_set_errno(sock, err_to_errno(sock->conn->last_err));
+                                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:170:14: note: in definition of macro 'sock_set_errno'
+   sk->err = (e); \
+              ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1723:30: note: in expansion of macro 'err_to_errno'
+         sock_set_errno(sock, err_to_errno(sock->conn->last_err));
+                              ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1723:53: error: dereferencing pointer to incomplete type
+         sock_set_errno(sock, err_to_errno(sock->conn->last_err));
+                                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:170:14: note: in definition of macro 'sock_set_errno'
+   sk->err = (e); \
+              ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1723:30: note: in expansion of macro 'err_to_errno'
+         sock_set_errno(sock, err_to_errno(sock->conn->last_err));
+                              ^
+In file included from ../../../../utils/lwiplib.h:63:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1748:44: error: dereferencing pointer to incomplete type
+       *(int*)optval = (udp_flags(sock->conn->pcb.udp) & UDP_FLAGS_NOCHKSUM) ? 1 : 0;
+                                            ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:151:35: note: in definition of macro 'udp_flags'
+ #define          udp_flags(pcb) ((pcb)->flags)
+                                   ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1761:33: error: dereferencing pointer to incomplete type
+       *(int*)optval = sock->conn->pcb.ip->ttl;
+                                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1766:33: error: dereferencing pointer to incomplete type
+       *(int*)optval = sock->conn->pcb.ip->tos;
+                                 ^
+In file included from ../../../../utils/lwiplib.h:62:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1802:52: error: dereferencing pointer to incomplete type
+       *(int*)optval = tcp_nagle_disabled(sock->conn->pcb.tcp);
+                                                    ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:330:46: note: in definition of macro 'tcp_nagle_disabled'
+ #define          tcp_nagle_disabled(pcb)  (((pcb)->flags & TF_NODELAY) != 0)
+                                              ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1807:38: error: dereferencing pointer to incomplete type
+       *(int*)optval = (int)sock->conn->pcb.tcp->keep_idle;
+                                      ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_setsockopt':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1917:22: error: dereferencing pointer to incomplete type
+       if ((sock->conn->type != NETCONN_UDP) ||
+                      ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1917:32: error: 'NETCONN_UDP' undeclared (first use in this function)
+       if ((sock->conn->type != NETCONN_UDP) ||
+                                ^
+In file included from ../../../../utils/lwiplib.h:63:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1918:33: error: dereferencing pointer to incomplete type
+           ((udp_flags(sock->conn->pcb.udp) & UDP_FLAGS_UDPLITE) != 0)) {
+                                 ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:151:35: note: in definition of macro 'udp_flags'
+ #define          udp_flags(pcb) ((pcb)->flags)
+                                   ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1994:19: error: dereferencing pointer to incomplete type
+     if (sock->conn->type != NETCONN_TCP)
+                   ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:1994:29: error: 'NETCONN_TCP' undeclared (first use in this function)
+     if (sock->conn->type != NETCONN_TCP)
+                             ^
+In file included from ../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:41:0,
+                 from ../../../../utils/lwiplib.h:62,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_setsockopt_internal':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2111:33: error: dereferencing pointer to incomplete type
+         ip_set_option(sock->conn->pcb.ip, optname);
+                                 ^
+../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip.h:207:37: note: in definition of macro 'ip_set_option'
+ #define ip_set_option(pcb, opt)   ((pcb)->so_options |= (opt))
+                                     ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2113:35: error: dereferencing pointer to incomplete type
+         ip_reset_option(sock->conn->pcb.ip, optname);
+                                   ^
+../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip.h:209:37: note: in definition of macro 'ip_reset_option'
+ #define ip_reset_option(pcb, opt) ((pcb)->so_options &= ~(opt))
+                                     ^
+In file included from ../../../../utils/lwiplib.h:63:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2136:32: error: dereferencing pointer to incomplete type
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) | UDP_FLAGS_NOCHKSUM);
+                                ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:152:42: note: in definition of macro 'udp_setflags'
+ #define          udp_setflags(pcb, f)  ((pcb)->flags = (f))
+                                          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2136:63: error: dereferencing pointer to incomplete type
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) | UDP_FLAGS_NOCHKSUM);
+                                                               ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:152:57: note: in definition of macro 'udp_setflags'
+ #define          udp_setflags(pcb, f)  ((pcb)->flags = (f))
+                                                         ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2136:43: note: in expansion of macro 'udp_flags'
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) | UDP_FLAGS_NOCHKSUM);
+                                           ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2138:32: error: dereferencing pointer to incomplete type
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) & ~UDP_FLAGS_NOCHKSUM);
+                                ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:152:42: note: in definition of macro 'udp_setflags'
+ #define          udp_setflags(pcb, f)  ((pcb)->flags = (f))
+                                          ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2138:63: error: dereferencing pointer to incomplete type
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) & ~UDP_FLAGS_NOCHKSUM);
+                                                               ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/udp.h:152:57: note: in definition of macro 'udp_setflags'
+ #define          udp_setflags(pcb, f)  ((pcb)->flags = (f))
+                                                         ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2138:43: note: in expansion of macro 'udp_flags'
+         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) & ~UDP_FLAGS_NOCHKSUM);
+                                           ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2152:17: error: dereferencing pointer to incomplete type
+       sock->conn->pcb.ip->ttl = (u8_t)(*(int*)optval);
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2157:17: error: dereferencing pointer to incomplete type
+       sock->conn->pcb.ip->tos = (u8_t)(*(int*)optval);
+                 ^
+In file included from ../../../../utils/lwiplib.h:62:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2207:37: error: dereferencing pointer to incomplete type
+         tcp_nagle_disable(sock->conn->pcb.tcp);
+                                     ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:328:45: note: in definition of macro 'tcp_nagle_disable'
+ #define          tcp_nagle_disable(pcb)   ((pcb)->flags |= TF_NODELAY)
+                                             ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2209:36: error: dereferencing pointer to incomplete type
+         tcp_nagle_enable(sock->conn->pcb.tcp);
+                                    ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:329:45: note: in definition of macro 'tcp_nagle_enable'
+ #define          tcp_nagle_enable(pcb)    ((pcb)->flags &= ~TF_NODELAY)
+                                             ^
+In file included from ../../../../utils/lwiplib.c:55:0:
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2215:17: error: dereferencing pointer to incomplete type
+       sock->conn->pcb.tcp->keep_idle = (u32_t)(*(int*)optval);
+                 ^
+../../../../third_party/lwip-1.4.1/src/api/sockets.c: In function 'lwip_ioctl':
+../../../../third_party/lwip-1.4.1/src/api/sockets.c:2330:5: warning: implicit declaration of function 'netconn_set_nonblocking' [-Wimplicit-function-declaration]
+     netconn_set_nonblocking(sock->conn, val);
+     ^
+In file included from ../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip.h:39:0,
+                 from ../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:41,
+                 from ../../../../utils/lwiplib.h:62,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/core/dhcp.c: In function 'dhcp_bind':
+../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip_addr.h:200:39: warning: the comparison will always evaluate as 'false' for the address of 'gw_addr' will never be NULL [-Waddress]
+ #define ip_addr_isany(addr1) ((addr1) == NULL || (addr1)->addr == IPADDR_ANY)
+                                       ^
+../../../../third_party/lwip-1.4.1/src/core/dhcp.c:987:7: note: in expansion of macro 'ip_addr_isany'
+   if (ip_addr_isany(&gw_addr)) {
+       ^
+In file included from ../../../../utils/lwiplib.c:66:0:
+../../../../third_party/lwip-1.4.1/src/core/init.c: At top level:
+../../../../third_party/lwip-1.4.1/src/core/init.c:134:4: error: #error "If you want to use Sequential API, you have to define NO_SYS=0 in your lwipopts.h"
+   #error "If you want to use Sequential API, you have to define NO_SYS=0 in your lwipopts.h"
+    ^
+../../../../third_party/lwip-1.4.1/src/core/init.c:137:4: error: #error "If you want to use Socket API, you have to define LWIP_NETCONN=1 in your lwipopts.h"
+   #error "If you want to use Socket API, you have to define LWIP_NETCONN=1 in your lwipopts.h"
+    ^
+In file included from ../../../../utils/lwiplib.c:71:0:
+../../../../third_party/lwip-1.4.1/src/core/raw.c: In function 'raw_input':
+../../../../third_party/lwip-1.4.1/src/core/raw.c:104:18: error: 'struct raw_pcb' has no member named 'lwip_recv'
+           if (pcb->recv(pcb->recv_arg, pcb, p, ip_current_src_addr()) != 0) {
+                  ^
+In file included from ../../../../utils/lwiplib.h:69:0,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/core/tcp.c: In function 'tcp_process_refused_data':
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp_impl.h:229:20: error: 'struct tcp_pcb' has no member named 'lwip_recv'
+       (ret) = (pcb)->recv((pcb)->callback_arg,(pcb),(p),(err));\
+                    ^
+../../../../third_party/lwip-1.4.1/src/core/tcp.c:1095:3: note: in expansion of macro 'TCP_EVENT_RECV'
+   TCP_EVENT_RECV(pcb, refused_data, ERR_OK, err);
+   ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp_impl.h:238:20: error: 'struct tcp_pcb' has no member named 'lwip_recv'
+       (ret) = (pcb)->recv((pcb)->callback_arg,(pcb),NULL,ERR_OK);\
+                    ^
+../../../../third_party/lwip-1.4.1/src/core/tcp.c:1104:7: note: in expansion of macro 'TCP_EVENT_CLOSED'
+       TCP_EVENT_CLOSED(pcb, err);
+       ^
+../../../../third_party/lwip-1.4.1/src/core/tcp_in.c: In function 'tcp_input':
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp_impl.h:229:20: error: 'struct tcp_pcb' has no member named 'lwip_recv'
+       (ret) = (pcb)->recv((pcb)->callback_arg,(pcb),(p),(err));\
+                    ^
+../../../../third_party/lwip-1.4.1/src/core/tcp_in.c:350:11: note: in expansion of macro 'TCP_EVENT_RECV'
+           TCP_EVENT_RECV(pcb, recv_data, ERR_OK, err);
+           ^
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp_impl.h:238:20: error: 'struct tcp_pcb' has no member named 'lwip_recv'
+       (ret) = (pcb)->recv((pcb)->callback_arg,(pcb),NULL,ERR_OK);\
+                    ^
+../../../../third_party/lwip-1.4.1/src/core/tcp_in.c:374:13: note: in expansion of macro 'TCP_EVENT_CLOSED'
+             TCP_EVENT_CLOSED(pcb, err);
+             ^
+../../../../third_party/lwip-1.4.1/src/core/tcp_in.c: In function 'tcp_process':
+../../../../third_party/lwip-1.4.1/src/include/lwip/tcp_impl.h:215:20: error: 'struct tcp_pcb' has no member named 'lwip_accept'
+       (ret) = (pcb)->accept((pcb)->callback_arg,(pcb),(err));  \
+                    ^
+../../../../third_party/lwip-1.4.1/src/core/tcp_in.c:694:9: note: in expansion of macro 'TCP_EVENT_ACCEPT'
+         TCP_EVENT_ACCEPT(pcb, ERR_OK, err);
+         ^
+In file included from ../../../../utils/lwiplib.c:78:0:
+../../../../third_party/lwip-1.4.1/src/core/udp.c: In function 'udp_input':
+../../../../third_party/lwip-1.4.1/src/core/udp.c:403:68: error: macro "recv" passed 5 arguments, but takes just 4
+         pcb->recv(pcb->recv_arg, pcb, p, ip_current_src_addr(), src);
+                                                                    ^
+../../../../third_party/lwip-1.4.1/src/core/udp.c:403:9: warning: statement with no effect [-Wunused-value]
+         pcb->recv(pcb->recv_arg, pcb, p, ip_current_src_addr(), src);
+         ^
+In file included from ../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip.h:39:0,
+                 from ../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h:41,
+                 from ../../../../utils/lwiplib.h:62,
+                 from ../../../../utils/lwiplib.c:32:
+../../../../third_party/lwip-1.4.1/src/core/ipv4/ip.c: In function 'ip_input':
+../../../../third_party/lwip-1.4.1/src/include/ipv4/lwip/ip_addr.h:200:39: warning: the comparison will always evaluate as 'false' for the address of 'current_iphdr_src' will never be NULL [-Waddress]
+ #define ip_addr_isany(addr1) ((addr1) == NULL || (addr1)->addr == IPADDR_ANY)
+                                       ^
+../../../../third_party/lwip-1.4.1/src/core/ipv4/ip.c:473:24: note: in expansion of macro 'ip_addr_isany'
+   if (check_ip_src && !ip_addr_isany(&current_iphdr_src))
+                        ^
+make: *** [gcc/lwiplib.o] Error 1

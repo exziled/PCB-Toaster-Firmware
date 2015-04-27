@@ -30,6 +30,7 @@
 #include "driverlib/ssi.h"
 #include "utils/lwiplib.h"
 #include "utils/ustdlib.h"
+#include "utils/uartstdio.h"
 #include "httpserver_raw/httpd.h"
 #include "httpserver_raw/fs.h"
 #include "httpserver_raw/fsdata.h"
@@ -100,6 +101,37 @@ fs_open(const char *pcName)
         //
         return(psFile);
     }
+
+    else if (ustrncmp(pcName, "/get_temp", 9) == 0)
+    {
+        static char tempBuf[6];
+
+        io_get_temperature(tempBuf, 6);
+
+        psFile->data = tempBuf;
+        psFile->len = strlen(tempBuf);
+        psFile->index = psFile->len;
+        psFile->pextension = NULL;
+
+
+        return psFile;
+    }
+
+
+    else if (ustrncmp(pcName, "/set_profile=", 9) == 0)
+    {
+        io_start_bake((char *)(pcName + 13), strlen(pcName) - 13);
+
+        static char tempBuf[] = "Test";
+
+        psFile->data = tempBuf;
+        psFile->len = strlen(tempBuf);
+        psFile->index = psFile->len;
+        psFile->pextension = NULL;
+
+
+        return psFile;
+    } 
 
     //
     // Request for LED State?

@@ -21,6 +21,9 @@
 // This is part of revision 2.1.0.12573 of the EK-TM4C1294XL Firmware Package.
 //
 //*****************************************************************************
+#include "def.h"
+#include "sockets.h"
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -47,6 +50,11 @@
 #include "triac_mgmt.h"
 #include "max31855.h"
 #include "driverlib/shamd5.h"
+#include "websocket_server.h"
+#include "toast_timestamp.h"
+#include "bake.h"
+
+
 
 //! ../../../../tools/bin/makefsfile -i fs -o io_fsdata.h -r -h -q
 
@@ -146,6 +154,14 @@ __error__(char *pcFilename, uint32_t ui32Line)
 void
 SysTickIntHandler(void)
 {
+    static int count;
+
+    if (count++ >= 50)  // Systick runs at 50Hz, every 50 ticks is one second
+    {
+        timestamp_increment();
+        count = 0;
+    }
+
         // MAP_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0,
         //     (MAP_GPIOPinRead(GPIO_PORTN_BASE, GPIO_PIN_0) ^
         //      GPIO_PIN_0));
@@ -383,10 +399,6 @@ int main(void)
 
     //
     // Initialize a sample httpd server.
-    //
-
-    SHAMD5ConfigSet(SHAMD5_BASE, SHAMD5_ALGO_SHA1);
-
     httpd_init();
 
     //
@@ -416,6 +428,28 @@ int main(void)
 
     initToasterTemp();
 
+
+    // int sock_id = lwip_socket(AF_INET, SOCK_STREAM, 0);
+    // if (sock_id == -1)
+    // {
+    //     UARTprintf("Create Socket Failed \r\n");
+    // }
+
+    // struct sockaddr_in socket_config;
+    // socket_config.sin_family = AF_INET;
+    // socket_config.sin_addr.s_addr = INADDR_ANY;
+    // socket_config.sin_port = htons(8080);
+
+    // if (lwip_bind(sock_id, (struct sockaddr *) &socket_config, sizeof(socket_config)) == -1)
+    // {
+    //     UARTprintf("Bind Failure\r\n");
+    // }
+
+    // if (lwip_listen(sock_id, 1) == -1)
+    // {
+    //     UARTprintf("Listen Failure\r\n");
+    // }
+
     //
     // Loop forever, processing the on-screen animation.  All other work is
     // done in the interrupt handlers.
@@ -444,6 +478,7 @@ int main(void)
                 (MAP_GPIOPinRead(GPIO_PORTN_BASE, GPIO_PIN_1) ^
                  GPIO_PIN_1));
 
-        UARTprintf("Temperature %d\r\n", getToasterTemp());
+        // UARTprintf("Time: %d\r\n", timestamp_get());
+        // UARTprintf("Temperature %d\r\n", getToasterTemp());
     }
 }

@@ -39,6 +39,7 @@ gcc/io_fs.o: io_fs.c /usr/lib/gcc/arm-none-eabi/4.8.2/include/stdbool.h \
  /usr/lib/gcc/arm-none-eabi/4.8.2/include/stdarg.h \
  /usr/include/newlib/time.h /usr/include/newlib/machine/time.h \
  /usr/include/newlib/sys/types.h /usr/include/newlib/machine/types.h \
+ ../../../../utils/uartstdio.h \
  ../../../../third_party/lwip-1.4.1/apps/httpserver_raw/httpd.h \
  ../../../../third_party/lwip-1.4.1/apps/httpserver_raw/fs.h \
  ../../../../third_party/lwip-1.4.1/apps/httpserver_raw/fsdata.h \

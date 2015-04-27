@@ -1,4 +1,10 @@
 gcc/enet_io.o: enet_io.c \
+ ../../../../third_party/lwip-1.4.1/src/include/lwip/def.h \
+ ../../../../third_party/lwip-1.4.1/src/include/lwip/arch.h \
+ ../../../../third_party/lwip-1.4.1/ports/tiva-tm4c129/include/arch/cc.h \
+ ../../../../third_party/lwip-1.4.1/src/include/lwip/opt.h lwipopts.h \
+ ../../../../third_party/lwip-1.4.1/src/include/lwip/debug.h \
+ ../../../../third_party/lwip-1.4.1/src/include/lwip/sockets.h \
  /usr/lib/gcc/arm-none-eabi/4.8.2/include/stdbool.h \
  /usr/lib/gcc/arm-none-eabi/4.8.2/include/stdint.h \
  /usr/include/newlib/stdint.h \
@@ -17,10 +23,6 @@ gcc/enet_io.o: enet_io.c \
  ../../../../driverlib/sysctl.h ../../../../driverlib/systick.h \
  ../../../../driverlib/timer.h ../../../../driverlib/rom_map.h \
  ../../../../utils/locator.h ../../../../utils/lwiplib.h \
- ../../../../third_party/lwip-1.4.1/src/include/lwip/opt.h lwipopts.h \
- ../../../../third_party/lwip-1.4.1/src/include/lwip/debug.h \
- ../../../../third_party/lwip-1.4.1/src/include/lwip/arch.h \
- ../../../../third_party/lwip-1.4.1/ports/tiva-tm4c129/include/arch/cc.h \
  ../../../../third_party/lwip-1.4.1/src/include/lwip/api.h \
  ../../../../third_party/lwip-1.4.1/src/include/lwip/netifapi.h \
  ../../../../third_party/lwip-1.4.1/src/include/lwip/tcp.h \
@@ -47,4 +49,8 @@ gcc/enet_io.o: enet_io.c \
  /usr/include/newlib/machine/types.h \
  ../../../../third_party/lwip-1.4.1/apps/httpserver_raw/httpd.h \
  ../drivers/pinout.h io.h zero_crossing.h triac_mgmt.h \
- ../../../../inc/hw_timer.h max31855.h ../../../../driverlib/shamd5.h
+ ../../../../inc/hw_timer.h max31855.h ../../../../driverlib/shamd5.h \
+ websocket_server.h /usr/include/newlib/assert.h \
+ /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
+ /usr/include/newlib/stdio.h /usr/include/newlib/sys/stdio.h \
+ /usr/include/newlib/ctype.h toast_timestamp.h bake.h

@@ -1,0 +1,172 @@
+* {	padding: 0; margin: 0; vertical-align: top; }
+
+a {	color: #069; }
+a:hover { color: #28b; }
+
+h2 {
+	margin-top: 15px;
+	font: normal 32px "omnes-pro", Helvetica, Arial, sans-serif;
+}
+
+h3 {
+	font: normal 26px "omnes-pro", Helvetica, Arial, sans-serif;
+}
+
+p {
+	margin-top: 10px;
+}
+
+.alert {
+	position: fixed;
+	top: 0px;
+	margin-bottom: 0;
+	z-index: 999;
+	width: 100%;
+	display: none;
+}
+
+.header {
+	width: 100%;
+}
+
+.header h3 {
+	display: inline-block;
+	width: 50%;
+	height: 100%;
+}
+
+.header div {
+	margin: auto;
+	display: inline-block;
+	float: right;
+}
+
+.header button {
+	margin: 15px auto;
+	box-shadow: 0px 2px 0px Maroon;
+}
+
+.header button:active {
+	margin-top: 17px;
+	box-shadow: none;
+}
+
+.reflow-profile button {`
+	font-size: 12px;
+	height: 24px;
+}
+
+#content {
+	width: 90%;
+	margin: 0 auto;
+	padding: 10px;
+	font-size: 16px;
+}
+
+#footer {
+	margin-top: 25px;
+	margin-bottom: 10px;
+	text-align: center;
+	font-size: 12px;
+	color: #999;
+}
+
+.demo-container {
+	box-sizing: border-box;
+	width: 100%;
+	height: 350px;
+	padding: 20px 15px 15px 15px;
+	margin: 15px auto 30px auto;
+	border: 1px solid #ddd;
+	background: #fff;
+	background: linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+	-o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.demo-placeholder {
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	line-height: 1.2em;
+}
+
+.legend table {
+	border-spacing: 5px;
+}
+
+.temp-control {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 100px;
+}
+.temp-control-container {
+	width: 100%;
+	display: block;
+}
+
+.temp-control-tbl {
+	/*width: 95%;
+	margin: 0 auto;*/
+}
+
+.temp-control-header {
+	text-align: center;
+}
+.temp-control-new {
+	padding: 10px;
+}
+
+.temp-control-pair {
+}
+
+.temp-control-value {
+	border: 1px solid black;
+	width: 40%;
+	text-align: center;
+}
+.temp-control-rightmost {
+	border: 1px solid black;
+	width: 10%;
+	vertical-align: center;
+}
+
+.reflow-profile {
+	display: inline-block;
+	width: 60%;
+	margin: 0 2%;
+}
+
+.system-status {
+	display: inline-block;
+	width: 35%;
+	height: 100%;
+	text-align: center;
+}
+
+.system-status h4 {
+	text-align: left;
+}
+
+.status-table {
+	text-align: center;
+}
+
+.status-table-bottom {
+	margin: 15px auto 30px auto;
+	text-align: center;
+}
+
+.toaster {
+	width: 50%;
+	margin: 0 auto;
+	padding: 10px auto;
+}

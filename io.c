@@ -23,6 +23,8 @@
 //*****************************************************************************
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
+#include <stdio.h>
 #include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_pwm.h"
@@ -34,7 +36,11 @@
 #include "driverlib/interrupt.h"
 #include "driverlib/rom.h"
 #include "utils/ustdlib.h"
+#include "utils/uartstdio.h"
 #include "io.h"
+
+#include "bake.h"
+#include "max31855.h"
 
 //*****************************************************************************
 //
@@ -185,6 +191,75 @@ io_get_ledstate(char * pcBuf, int iBufLen)
     }
 
 }
+
+
+
+
+
+
+
+
+void io_get_temperature(char * pcBuf, int iBufLen)
+{
+    uint16_t temp = getToasterTemp();
+
+    usnprintf(pcBuf, iBufLen, "%d", temp);
+}
+
+
+
+void io_start_bake(char * reflow_points, int size)
+{
+    char * token;
+    uint8_t count = 0;
+    uint16_t test;
+    char seperator[] = ",";
+
+    REFLOW_INSTANCE_T * reflow = reflow_get_instance();
+    REFLOW_PROFILE_T * profile = reflow->profile;
+
+
+    reflow_init(reflow);
+
+    // UARTprintf(reflow_points);
+
+    token = strtok(reflow_points, seperator);
+    while(token != NULL)
+    {
+        if (count % 2)
+        {
+            // UARTprintf("%s\r\n", token);
+            profile[count/2].temperature = atoi(token);
+            
+            //sscanf (token, "%d", &(profile[count/2].timestamp));
+        } else {
+            profile[count/2].timestamp = atoi(token);
+            // sscanf (token, "%d", &(profile[count/2].temperature));
+            // sscanf (token, "%d", &test);
+        }
+
+        count++;
+        token = strtok(NULL, seperator);
+    }
+
+    reflow->profile_points = count / 2;
+
+    for (int i = 0; i < reflow->profile_points; i++)
+    {
+        UARTprintf("%d - %d\r\n", reflow->profile[i].timestamp, reflow->profile[i].temperature);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 //*****************************************************************************
 //

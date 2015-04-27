@@ -47,6 +47,11 @@ void io_set_led(bool bOn);
 void io_get_ledstate(char *pcBuf, int iBufLen);
 void io_set_animation_speed_string(char *pcBuf);
 void io_get_animation_speed_string(char *pcBuf, int iBufLen);
+
+
+void io_get_temperature(char * pcBuf, int iBufLen);
+void io_start_bake(char * reflow_points, int size);
+
 void io_set_animation_speed(unsigned long ulSpeedPercent);
 unsigned long io_get_animation_speed(void);
 int io_is_led_on(void);
