@@ -138,16 +138,16 @@ io_init(void)
     //
     ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
 
-    //
-    // Configure the timer used to pace the animation.
-    //
-    ROM_TimerConfigure(TIMER2_BASE, TIMER_CFG_PERIODIC);
+    // //
+    // // Configure the timer used to pace the animation.
+    // //
+    // ROM_TimerConfigure(TIMER2_BASE, TIMER_CFG_PERIODIC);
 
-    //
-    // Setup the interrupts for the timer timeouts.
-    //
-    ROM_IntEnable(INT_TIMER2A);
-    ROM_TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+    // //
+    // // Setup the interrupts for the timer timeouts.
+    // //
+    // ROM_IntEnable(INT_TIMER2A);
+    // ROM_TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
 
     //
     // Set the timer for the current animation speed.  This enables the
@@ -215,11 +215,11 @@ void io_start_bake(char * reflow_points, int size)
     uint16_t test;
     char seperator[] = ",";
 
-    REFLOW_INSTANCE_T * reflow = reflow_get_instance();
-    REFLOW_PROFILE_T * profile = reflow->profile;
+    volatile REFLOW_INSTANCE_T * reflow = reflow_get_instance();
+    volatile REFLOW_PROFILE_T * profile = reflow->profile;
 
 
-    reflow_init(reflow);
+    // reflow_init(reflow);
 
     // UARTprintf(reflow_points);
 
@@ -228,14 +228,9 @@ void io_start_bake(char * reflow_points, int size)
     {
         if (count % 2)
         {
-            // UARTprintf("%s\r\n", token);
             profile[count/2].temperature = atoi(token);
-            
-            //sscanf (token, "%d", &(profile[count/2].timestamp));
         } else {
             profile[count/2].timestamp = atoi(token);
-            // sscanf (token, "%d", &(profile[count/2].temperature));
-            // sscanf (token, "%d", &test);
         }
 
         count++;
@@ -243,6 +238,8 @@ void io_start_bake(char * reflow_points, int size)
     }
 
     reflow->profile_points = count / 2;
+
+    reflow_start(reflow);
 
     for (int i = 0; i < reflow->profile_points; i++)
     {

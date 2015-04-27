@@ -43,7 +43,6 @@ static void IntDefaultHandler(void);
 //*****************************************************************************
 extern void lwIPEthernetIntHandler(void);
 extern void SysTickIntHandler(void);
-extern void AnimTimerIntHandler(void);
 extern void __int_ZERO(void);
 
 //*****************************************************************************
@@ -109,7 +108,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // Timer 0 subtimer B
     IntDefaultHandler,                      // Timer 1 subtimer A
     IntDefaultHandler,                      // Timer 1 subtimer B
-    AnimTimerIntHandler,                    // Timer 2 subtimer A
+    IntDefaultHandler,                      // Timer 2 subtimer A
     IntDefaultHandler,                      // Timer 2 subtimer B
     IntDefaultHandler,                      // Analog Comparator 0
     IntDefaultHandler,                      // Analog Comparator 1

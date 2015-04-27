@@ -15,13 +15,12 @@ typedef struct reflow_instance
 	uint16_t start_time;
 	REFLOW_PROFILE_T * profile;
 	uint8_t profile_points;
+	uint8_t active;
 } REFLOW_INSTANCE_T;
 
-static REFLOW_INSTANCE_T * reflow = NULL;
-
-REFLOW_INSTANCE_T * reflow_get_instance(void);
-void reflow_init(REFLOW_INSTANCE_T * instance);
-void reflow_start(REFLOW_INSTANCE_T * instance);
-uint16_t reflow_calc_temp(REFLOW_INSTANCE_T * instance);
+volatile REFLOW_INSTANCE_T * reflow_get_instance(void);
+void reflow_init(volatile REFLOW_INSTANCE_T * instance);
+void reflow_start(volatile REFLOW_INSTANCE_T * instance);
+uint16_t reflow_calc_temp(volatile REFLOW_INSTANCE_T * instance);
 
 #endif

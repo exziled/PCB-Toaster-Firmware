@@ -159,6 +159,12 @@ SysTickIntHandler(void)
     if (count++ >= 50)  // Systick runs at 50Hz, every 50 ticks is one second
     {
         timestamp_increment();
+
+        if (reflow_get_instance()->active)
+        {
+            UARTprintf("Target Temp: %d @ %d\r\n", reflow_calc_temp(reflow_get_instance()), timestamp_get());
+        }
+
         count = 0;
     }
 
@@ -170,26 +176,6 @@ SysTickIntHandler(void)
     // Call the lwIP timer handler.
     //
     lwIPTimer(SYSTICKMS);
-}
-
-
-//*****************************************************************************
-//
-// The interrupt handler for the timer used to pace the animation.
-//
-//*****************************************************************************
-void
-AnimTimerIntHandler(void)
-{
-    //
-    // Clear the timer interrupt.
-    //
-    MAP_TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-
-    //
-    // Indicate that a timer interrupt has occurred.
-    //
-    HWREGBITW(&g_ulFlags, FLAG_TICK) = 1;
 }
 
 //*****************************************************************************
@@ -384,6 +370,8 @@ int main(void)
     pui8MACArray[3] = ((ui32User1 >>  0) & 0xff);
     pui8MACArray[4] = ((ui32User1 >>  8) & 0xff);
     pui8MACArray[5] = ((ui32User1 >> 16) & 0xff);
+
+    reflow_init(reflow_get_instance());
 
     //
     // Initialze the lwIP library, using DHCP.
