@@ -20,4 +20,5 @@ gcc/io.o: io.c /usr/lib/gcc/arm-none-eabi/4.8.2/include/stdbool.h \
  ../../../../driverlib/rom.h ../../../../utils/ustdlib.h \
  /usr/include/newlib/time.h /usr/include/newlib/machine/time.h \
  ../../../../utils/uartstdio.h io.h bake.h /usr/include/newlib/stdlib.h \
- /usr/include/newlib/machine/stdlib.h max31855.h
+ /usr/include/newlib/machine/stdlib.h max31855.h triac_mgmt.h \
+ ../../../../inc/hw_timer.h

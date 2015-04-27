@@ -68,5 +68,5 @@ uint16_t reflow_calc_temp(volatile REFLOW_INSTANCE_T * instance)
 		}
 	}
 
-	return 8008;
+	return 0;
 }

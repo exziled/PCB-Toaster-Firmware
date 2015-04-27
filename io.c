@@ -41,6 +41,7 @@
 
 #include "bake.h"
 #include "max31855.h"
+#include "triac_mgmt.h"
 
 //*****************************************************************************
 //
@@ -206,6 +207,18 @@ void io_get_temperature(char * pcBuf, int iBufLen)
     usnprintf(pcBuf, iBufLen, "%d", temp);
 }
 
+void io_get_power(char * pcBuf, int iBufLen, char * heater, int size)
+{
+    uint8_t h_index = atoi(heater);
+    uint8_t power = 0;
+
+    if (h_index < 2)
+    {
+        power = triac_map[h_index].duty_cycle;
+    }
+
+    usnprintf(pcBuf, iBufLen, "%d", power);
+}
 
 
 void io_start_bake(char * reflow_points, int size)

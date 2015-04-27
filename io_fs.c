@@ -131,6 +131,23 @@ fs_open(const char *pcName)
 
 
         return psFile;
+    }
+
+    // Get power level of heater elements
+    // 1 = top
+    // 0 = bottom
+    else if (ustrncmp(pcName, "/get_power=", 11) == 0)
+    {
+        static char powerBuf[4];
+
+        io_get_power(powerBuf, 4, (char *)(pcName+11), strlen(pcName) - 11);
+
+        psFile->data = powerBuf;
+        psFile->len = strlen(powerBuf);
+        psFile->index = psFile->len;
+        psFile->pextension = NULL;
+
+        return psFile;
     } 
 
     //
