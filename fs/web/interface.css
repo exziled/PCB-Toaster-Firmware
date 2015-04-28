@@ -51,6 +51,24 @@ p {
 	box-shadow: none;
 }
 
+.header .bacon:active {
+	margin-top: 17px;
+	box-shadow: none;
+	background-image: url("bacon-eggs.svg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.bacon {
+	background-image: url("bacon-eggs.svg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center;
+	width: 65px;
+	height: 35px;
+	font-size: 0px;
+}
+
 .reflow-profile button {`
 	font-size: 12px;
 	height: 24px;

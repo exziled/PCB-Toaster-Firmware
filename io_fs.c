@@ -74,39 +74,12 @@ fs_open(const char *pcName)
         return(NULL);
     }
 
-    //
-    // Process request to toggle STATUS LED
-    //
-    if(ustrncmp(pcName, "/cgi-bin/toggle_led", 19) == 0)
-    {
-        static char pcBuf[4];
-
-        //
-        // Toggle the STATUS LED
-        //
-        io_set_led(!io_is_led_on());
-
-        //
-        // Get the new state of the LED
-        //
-        io_get_ledstate(pcBuf, 4);
-
-        psFile->data = pcBuf;
-        psFile->len = strlen(pcBuf);
-        psFile->index = psFile->len;
-        psFile->pextension = NULL;
-
-        //
-        // Return the psFile system pointer.
-        //
-        return(psFile);
-    }
 
     else if (ustrncmp(pcName, "/get_temp", 9) == 0)
     {
-        static char tempBuf[6];
+        static char tempBuf[20];
 
-        io_get_temperature(tempBuf, 6);
+        io_get_temperature(tempBuf, 20);
 
         psFile->data = tempBuf;
         psFile->len = strlen(tempBuf);
@@ -150,6 +123,23 @@ fs_open(const char *pcName)
         return psFile;
     } 
 
+    // Get power level of heater elements
+    // 1 = top
+    // 0 = bottom
+    else if (ustrncmp(pcName, "/get_status", 11) == 0)
+    {
+        static char status_buf[4];
+
+        io_get_status(status_buf, 4);
+
+        psFile->data = status_buf;
+        psFile->len = strlen(status_buf);
+        psFile->index = psFile->len;
+        psFile->pextension = NULL;
+
+        return psFile;
+    } 
+
     //
     // Request for LED State?
     //
@@ -161,47 +151,6 @@ fs_open(const char *pcName)
         // Get the state of the LED
         //
         io_get_ledstate(pcBuf, 4);
-
-        psFile->data = pcBuf;
-        psFile->len = strlen(pcBuf);
-        psFile->index = psFile->len;
-        psFile->pextension = NULL;
-        return(psFile);
-    }
-    //
-    // Request for the animation speed?
-    //
-    else if(ustrncmp(pcName, "/get_speed", 10) == 0)
-    {
-        static char pcBuf[6];
-
-        //
-        // Get the current animation speed as a string.
-        //
-        io_get_animation_speed_string(pcBuf, 6);
-
-        psFile->data = pcBuf;
-        psFile->len = strlen(pcBuf);
-        psFile->index = psFile->len;
-        psFile->pextension = NULL;
-        return(psFile);
-    }
-    //
-    // Set the animation speed?
-    //
-    else if(ustrncmp(pcName, "/cgi-bin/set_speed?percent=", 12) == 0)
-    {
-        static char pcBuf[6];
-
-        //
-        // Extract the parameter and set the actual speed requested.
-        //
-        io_set_animation_speed_string((char*)pcName + 27);
-
-        //
-        // Get the current speed setting as a string to send back.
-        //
-        io_get_animation_speed_string(pcBuf, 6);
 
         psFile->data = pcBuf;
         psFile->len = strlen(pcBuf);

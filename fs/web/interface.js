@@ -73,6 +73,8 @@ var Profile = function() {
 	// Get points usable for graphing
 	this.getGraphPoints = function() {
 		var points = [];
+		var prevX = 0;
+		var prevY = 25;
 
 		if (this.pairs.length == 0) {
 			return points;
@@ -90,16 +92,69 @@ var Profile = function() {
 			points.push(pair);
 		};
 
-		return points;
+		var graph = {};
+		graph.label = "Reflow Profile";
+		graph.data = points;
+
+		return graph;
+	}
+};
+
+var Toaster = function() {
+	this.baking = false;
+	this.pairs = [];
+
+	// Get the current status of the toaster
+	this.updateStatus = function() {
+
+		var that = this;
+
+		// Ask the toaster
+		$.get("get_status", function(data) {
+
+			if (data == "off") {
+				that.baking = false;
+
+				// Enable the bake button
+				$("#bake").html("Bake!").prop('disabled', false);
+			} else {
+				that.baking = true;
+
+				// Disable the bake button
+				$("#bake").html("Stop Baking!").prop('disabled', false);
+			}
+		});
+
+		return this.baking;
 	}
 
-	// Send the profile to the server
-	this.sendData = function() {
-		var points = this.getGraphPoints();
+	// Update the toaster temperature information
+	this.updateTemp = function() {
+
+		var that = this;
+
+		// Ask the toaster
+		$.get("get_temp", function(data) {
+			console.log(data);
+
+			var values = data.split(',');
+
+			var newPair = new ProfilePair(values[0], values[1]);
+			that.pairs.push(newPair);
+		});
+	}
+
+	// Send the reflow profile to the toaster
+	this.startBake = function(profile) {
+		var points = profile.getGraphPoints();
+
+		if (points.length == 0) {
+			return points;
+		}
 
 		var message = "";
 
-		$.each(this.getGraphPoints(), function(index, point) {
+		$.each(profile.getGraphPoints().data, function(index, point) {
 			message += point[0]+","+point[1]+",";
 		});
 
@@ -107,15 +162,53 @@ var Profile = function() {
 
 		console.log(message);
 
-		url = "/set_profile=";
+		url = "set_profile=";
 		url = url.concat(message);
 		$.get(url, function(data) {
-			if (data == "test") {
+			if (data == "on") {
 				displayAlert('alert-success', '<em>SUCCESS:</em> The profile was sent to the toaster!');
 			}
 
 			console.log(data);
 		});
+	}
+
+	this.stopBake = function() {
+		$.get('set_profile', function(data) {
+			if (data == "off") {
+				displayAlert('alert-warning', '<em>WARNING:</em> The baking process was stopped!');
+
+				// Enable the bake button
+				$("#bake").html("Bake!").prop('disabled', false).addClass('bacon');
+			}
+		});
+	}
+
+	this.getGraphPoints = function() {
+		var points = [];
+
+		if (this.pairs.length == 0) {
+			return points;
+		}
+
+		// First sort the pairs by time
+		this.pairs = this.pairs.sort(ProfilePairCompare);
+
+		// Create an array of x,y points
+		for (var i = this.pairs.length - 1; i >= 0; i--) {
+			var pair = [];
+
+			pair.push(parseInt(this.pairs[i].time));
+			pair.push(parseInt(this.pairs[i].temp));
+			points.push(pair);
+		};
+
+		var graph = {};
+		graph.label = "Toaster Temperature";
+		graph.data = points;
+		graph.color = '#c00000';
+
+		return graph;
 	}
 };
 
@@ -134,6 +227,9 @@ var updateProfile = (function(context, profile) {
 		} else if (!$.isNumeric(time) || !$.isNumeric(temp)) {
 			displayAlert('alert-danger', '<em>Error:</em> Invalid input.');
 			return;
+		} else if ((time < 0) || (temp > 300)) {
+			displayAlert('alert-danger', '<em>Error:</em> Invalid input values.');
+			return;
 		}
 
 		profile.addPair(time, temp);
@@ -149,7 +245,7 @@ var updateProfile = (function(context, profile) {
 function updateTable(profile) {
 	// Re-print Values
 	$(".temp-control-data").empty();
-	$.each(profile.getGraphPoints(), function(index, point) {
+	$.each(profile.getGraphPoints().data, function(index, point) {
 		$(".temp-control-data").append("<tr class=\"temp-control-pair\"><td class=\"temp-control-value temp-pair-time\">" + 
 			point[0] + "</td><td class=\"temp-control-value\">" + point[1] + 
 			"</td><td><button type=\"button\" class=\"temp-control-remove btn btn-default btn-sm\"><span class=\"glyphicon glyphicon-minus\" aria-hidden=\"true\"></span></button></td></tr>");
@@ -164,31 +260,60 @@ function displayAlert(type, message) {
 	$("#alert").stop().slideDown("slow").delay(3000).slideUp("slow");
 }
 
-function receiveMessage(message) {
-	console.log(message);
+function updateLabels(type, text) {
+	$("#upper-status").removeClass();
+	$("#upper-status").addClass('label');
+	$("#upper-status").addClass(type).html(text);
 
-	switch (message) {
-		case 'started':
-			$("#bake").prop('disabled', false).html("Stop Bake!");
-			break;
-		case 'done':
-			$("#bake").html("Bake").prop('disabled', false);
-	}
+	$("#lower-status").removeClass();
+	$("#lower-status").addClass('label');
+	$("#lower-status").addClass(type).html(text);
 }
 
-function readTemperature() {
-	console.log("attempting to read temperature");
+function updatePlot(plot, profile, toaster) {
+	plot.setData([profile.getGraphPoints(), toaster.getGraphPoints()]);
+	plot.setupGrid();
+	plot.draw();
+}
 
-	$.get("/get_temp", function(data) {
-		console.log(data);
+// Use this loop to get information to limit polls to the toaster
+function pollLoop(toaster) {
 
-		console.log("temerature read successfully");
-	});
+	// Update the toaster status
+	toaster.updateStatus();
+
+	console.log(toaster.baking);
+
+	// Update the toaster temperature points
+	if (toaster.baking) {
+		toaster.updateTemp();
+
+		// Update the status tags
+		updateLabels('label-warning', 'Heating');
+
+		// Let's add a warning to keep the user from accidentally trying to leave
+		window.onbeforeunload = function(e) {
+		  return 'Be careful, leaving can cause lost information!';
+		};
+
+	} else if ($("#upper-status").hasClass('label-warning') ) {
+		updateLabels('label-info', 'Cooling');
+
+		// Change the labels back after 5 minutes (may want this longer)
+		setTimeout(function(){updateLabels('label-success', 'Ready')}, 300000);
+	}
 }
 
 $(function() {
 	var plot = $.plot("#placeholder", []);
 
+	// Disable the bake button by default until we know we're all set
+	$("#bake").html("Bake!").prop('disabled', true);
+
+	// Create the toaster object and get its status
+	var toaster = new Toaster();
+
+	// Create the reflow profile and add the default points
 	var reflowProfile = new Profile();
 	reflowProfile.load();
 	reflowProfile.addPair(0, 25);
@@ -202,27 +327,6 @@ $(function() {
 		updateTable(reflowProfile);
 	}
 
-	// Connect to the server
-	var server = new FancyWebSocket('ws://echo.websocket.org');
-
-	// Make global temporarily for debugging
-	Server = server;
-
-	//Let the user know we're connected
-	server.bind('open', function() {
-		displayAlert('alert-success', "<em>Success:</em> A connection has been made with the toaster.");
-	});
-
-	//OH NOES! Disconnection occurred.
-	server.bind('close', function(data) {
-		displayAlert("alert-danger", "<em>Error:</em> Lost connection to the toaster.");
-	});
-
-	// Log any messages sent from server
-	server.bind('message', receiveMessage);
-
-	server.connect();
-
 	// Add a funtion reack to a start bake
 	$("#bake").click(function() {
 
@@ -230,11 +334,11 @@ $(function() {
 		if (reflowProfile.getGraphPoints().length < 2) {
 			displayAlert("alert-warning", "<em>Warning:</em> Please add additional points to the profile.");
 		} else if ($("#bake").html() == "Stop Bake!") {
-			server.send('message', 'done');
 			$(this).prop('disabled', true);
 		} else {
-			reflowProfile.sendData();
+			toaster.startBake(reflowProfile);
 			$(this).prop('disabled', true);
+			console.log('Baking!!');
 		}
 	});
 
@@ -279,5 +383,11 @@ $(function() {
 		}
 	});
 
-	setInterval(readTemperature, 1000);
+	// Enable the tooltips
+	$('[data-toggle="tooltip"]').tooltip();
+
+	// periodically update the graph
+	var updateToasterPlot = setInterval(function(){updatePlot(plot, reflowProfile, toaster)}, 1000);
+
+	var loop = setInterval(function(){pollLoop(toaster)}, 1000);
 });

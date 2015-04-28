@@ -53,7 +53,6 @@ uint16_t reflow_calc_temp(volatile REFLOW_INSTANCE_T * instance)
 {
 	uint16_t current_time = timestamp_get() - instance->start_time;
 
-
 	for (int i = 0; i < (instance->profile_points-1); i++)
 	{
 		if (instance->profile[i].timestamp <= current_time 
@@ -62,11 +61,12 @@ uint16_t reflow_calc_temp(volatile REFLOW_INSTANCE_T * instance)
 			REFLOW_PROFILE_T * next = &(instance->profile[i+1]);
 			REFLOW_PROFILE_T * last = &(instance->profile[i]);
 
-			int16_t slope = (next->temperature - last->temperature)/(next->timestamp - last->timestamp);
+			float slope = ((float)next->temperature - (float)last->temperature)/((float)next->timestamp - (float)last->timestamp);
 
 			return last->temperature + slope * (current_time -last->timestamp);
 		}
 	}
 
+	instance->active = 0;
 	return 0;
 }

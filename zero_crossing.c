@@ -35,9 +35,9 @@ void __int_ZERO(void)
             (MAP_GPIOPinRead(GPIO_PORTN_BASE, GPIO_PIN_0) ^
              GPIO_PIN_0));
 
-    triac_delay(&triac_map[0]);
-    triac_delay(&triac_map[1]);
-    //trigger_triac_timers();
+    triac_delay(0);
+    triac_delay(1);
+    trigger_triac_timers();
 
     return;
 }

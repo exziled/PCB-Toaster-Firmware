@@ -79,32 +79,7 @@ volatile unsigned long g_ulAnimSpeed = 10;
 // that a speed of 100% causes the timer to tick once every 20 mS (50Hz).
 //
 //*****************************************************************************
-static void
-io_set_timer(unsigned long ulSpeedPercent)
-{
-    unsigned long ulTimeout;
 
-    //
-    // Turn the timer off while we are mucking with it.
-    //
-    ROM_TimerDisable(TIMER2_BASE, TIMER_A);
-
-    //
-    // If the speed is non-zero, we reset the timeout.  If it is zero, we
-    // just leave the timer disabled.
-    //
-    if(ulSpeedPercent)
-    {
-        //
-        // Set Timeout
-        //
-        ulTimeout = g_ui32SysClock / 50;
-        ulTimeout = (ulTimeout * 100 ) / ulSpeedPercent;
-
-        ROM_TimerLoadSet(TIMER2_BASE, TIMER_A, ulTimeout);
-        ROM_TimerEnable(TIMER2_BASE, TIMER_A);
-    }
-}
 
 //*****************************************************************************
 //
@@ -137,7 +112,7 @@ io_init(void)
     //
     // Enable the peripherals used by this example.
     //
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
+    // ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
 
     // //
     // // Configure the timer used to pace the animation.
@@ -153,8 +128,8 @@ io_init(void)
     //
     // Set the timer for the current animation speed.  This enables the
     // timer as a side effect.
-    //
-    io_set_timer(g_ulAnimSpeed);
+    // //
+    // io_set_timer(g_ulAnimSpeed);
 }
 
 //*****************************************************************************
@@ -204,7 +179,7 @@ void io_get_temperature(char * pcBuf, int iBufLen)
 {
     uint16_t temp = getToasterTemp();
 
-    usnprintf(pcBuf, iBufLen, "%d", temp);
+    usnprintf(pcBuf, iBufLen, "%d,%d", timestamp_get(), temp);
 }
 
 void io_get_power(char * pcBuf, int iBufLen, char * heater, int size)
@@ -218,6 +193,15 @@ void io_get_power(char * pcBuf, int iBufLen, char * heater, int size)
     }
 
     usnprintf(pcBuf, iBufLen, "%d", power);
+}
+
+void io_get_status(char * pcBuf, int iBufLen)
+{
+    if (reflow_get_instance()->active) {
+        usnprintf(pcBuf, iBufLen, "on");
+    } else {
+        usnprintf(pcBuf, iBufLen, "off");
+    }
 }
 
 
@@ -258,108 +242,4 @@ void io_start_bake(char * reflow_points, int size)
     {
         UARTprintf("%d - %d\r\n", reflow->profile[i].timestamp, reflow->profile[i].temperature);
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-//*****************************************************************************
-//
-// Return LED state as an integer, 1 on, 0 off.
-//
-//*****************************************************************************
-int
-io_is_led_on(void)
-{
-    //
-    // Get the state of the LED
-    //
-    if(ROM_GPIOPinRead(LED_PORT_BASE, LED_PIN))
-    {
-        return(true);
-    }
-    else
-    {
-        return(0);
-    }
-}
-
-//*****************************************************************************
-//
-// Set the speed of the animation shown on the display.  In this version, the
-// speed is described as a decimal number encoded as an ASCII string.
-//
-//*****************************************************************************
-void
-io_set_animation_speed_string(char *pcBuf)
-{
-    unsigned long ulSpeed;
-
-    //
-    // Parse the passed parameter as a decimal number.
-    //
-    ulSpeed = 0;
-    while((*pcBuf >= '0') && (*pcBuf <= '9'))
-    {
-        ulSpeed *= 10;
-        ulSpeed += (*pcBuf - '0');
-        pcBuf++;
-    }
-
-    //
-    // If the number is valid, set the new speed.
-    //
-    if(ulSpeed <= 100)
-    {
-        g_ulAnimSpeed = ulSpeed;
-        io_set_timer(g_ulAnimSpeed);
-    }
-}
-
-//*****************************************************************************
-//
-// Set the speed of the animation shown on the display.
-//
-//*****************************************************************************
-void
-io_set_animation_speed(unsigned long ulSpeed)
-{
-    //
-    // If the number is valid, set the new speed.
-    //
-    if(ulSpeed <= 100)
-    {
-        g_ulAnimSpeed = ulSpeed;
-        io_set_timer(g_ulAnimSpeed);
-    }
-}
-
-//*****************************************************************************
-//
-// Get the current animation speed as an ASCII string.
-//
-//*****************************************************************************
-void
-io_get_animation_speed_string(char *pcBuf, int iBufLen)
-{
-    usnprintf(pcBuf, iBufLen, "%d%%", g_ulAnimSpeed);
-}
-
-//*****************************************************************************
-//
-// Get the current animation speed as a number.
-//
-//*****************************************************************************
-unsigned long
-io_get_animation_speed(void)
-{
-    return(g_ulAnimSpeed);
 }

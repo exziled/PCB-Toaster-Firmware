@@ -95,6 +95,7 @@ static volatile unsigned long g_ulFlags;
 //*****************************************************************************
 extern void httpd_init(void);
 
+int8_t toaster(uint16_t sp, uint16_t pv);
 
 //
 // The file sent back to the browser in cases where a parameter error is
@@ -160,9 +161,29 @@ SysTickIntHandler(void)
     {
         timestamp_increment();
 
+        //
+        // Indicate that a timer interrupt has occurred.
+        //
+        HWREGBITW(&g_ulFlags, FLAG_TICK) = 1;
+
+
         if (reflow_get_instance()->active)
         {
-            UARTprintf("Target Temp: %d @ %d\r\n", reflow_calc_temp(reflow_get_instance()), timestamp_get());
+            uint16_t toaster_temp = getToasterTemp();
+            uint16_t target_temp = reflow_calc_temp(reflow_get_instance());
+            int8_t duty = toaster(target_temp, toaster_temp);
+
+            if (duty > 100)
+            {
+                duty = 100;
+            } else if (duty < 0){
+                duty = 0;
+            }
+
+            triac_set_duty(0, duty);
+            triac_set_duty(1, duty);
+
+            UARTprintf("Time: %d Target: %d, Actual: %d, Duty: %d\r\n", timestamp_get(), target_temp, toaster_temp, duty);
         }
 
         count = 0;
@@ -278,6 +299,36 @@ lwIPHostTimerHandler(void)
 
         }
     }
+}
+
+
+int8_t toaster(uint16_t sp, uint16_t pv)
+{
+    static float err = 0, err_old = 0;      //difference between sp and pv
+    //P_err is proportional error (straight up error)
+    //I_err is integral error (error of overall)
+    //D_err is derivative error (error's rate of change)
+    static float P_err = 0, I_err = 0, D_err = 0;   
+
+    err_old = err;
+    err = sp - pv;
+
+    P_err = err;
+    I_err = (I_err + err_old)/2;
+    D_err = err - err_old;
+
+    int32_t res = (int32_t)(20*P_err + 0.1*I_err + 0.02*D_err);
+
+    if (res > 100)
+    {
+        res = 100;
+    } else if (res < 0) {
+        res = 0;
+    }
+
+
+    return (int8_t)res;
+    // + 0.02*D_err
 }
 
 //*****************************************************************************
@@ -409,34 +460,12 @@ int main(void)
     init_zero_crossing();
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    init_triac(&triac_map[0]);
-    init_triac(&triac_map[1]);
+    init_triac(0);
+    init_triac(1);
 
     init_triac_timer();
 
     initToasterTemp();
-
-
-    // int sock_id = lwip_socket(AF_INET, SOCK_STREAM, 0);
-    // if (sock_id == -1)
-    // {
-    //     UARTprintf("Create Socket Failed \r\n");
-    // }
-
-    // struct sockaddr_in socket_config;
-    // socket_config.sin_family = AF_INET;
-    // socket_config.sin_addr.s_addr = INADDR_ANY;
-    // socket_config.sin_port = htons(8080);
-
-    // if (lwip_bind(sock_id, (struct sockaddr *) &socket_config, sizeof(socket_config)) == -1)
-    // {
-    //     UARTprintf("Bind Failure\r\n");
-    // }
-
-    // if (lwip_listen(sock_id, 1) == -1)
-    // {
-    //     UARTprintf("Listen Failure\r\n");
-    // }
 
     //
     // Loop forever, processing the on-screen animation.  All other work is

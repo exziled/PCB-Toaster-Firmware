@@ -28,7 +28,7 @@
 	<div class="header">
 		<h3>Reflow Profile</h3>
 		<div>
-			<button type="button" id="bake" class="btn btn-danger">Bake!</button>
+			<button type="button" id="bake" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Bake!">Bake!</button>
 		</div>
 	</div>
 
@@ -44,7 +44,7 @@
 				<td colspan="2">Upper Heater</td>
 			</tr>
 			<tr>
-				<td>Status: <span class="label label-success">Ready</span></td>
+				<td>Status: <span id="upper-status" class="label label-success">Ready</span></td>
 				<td>Power Level: <span class="badge">0%</span></td>
 			</tr>
 		</table>
@@ -56,7 +56,7 @@
 				<td colspan="2">Lower Heater </td>
 			</tr>
 			<tr>
-				<td>Status: <span class="label label-success">Ready</span></td>
+				<td>Status: <span id="lower-status" class="label label-success">Ready</span></td>
 				<td>Power Level: <span class="badge">0%</span></td>
 			</tr>
 		</table>
@@ -87,13 +87,13 @@
 					<tr>
 						<td class="temp-control-value temp-control-new">
 							<div class="input-group input-group-sm">
-								<input type="number" class="form-control" id="temp-control-time" aria-label="Time" />
+								<input type="text" class="form-control" id="temp-control-time" aria-label="Time" />
 								<span class="input-group-addon">s</span>
 							</div>
 						</td>
 						<td class="temp-control-value temp-control-new">
 							<div class="input-group input-group-sm">
-								<input type="number" class="form-control" id="temp-control-temp" aria-label="Tempeature" />
+								<input type="text" class="form-control" id="temp-control-temp" data-toggle="tooltip" data-placement="top" title="24 < &deg;C < 300" aria-label="Tempeature" />
 								<span class="input-group-addon">&deg;C</span>
 							</div>
 						</td>

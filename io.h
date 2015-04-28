@@ -51,6 +51,7 @@ void io_get_animation_speed_string(char *pcBuf, int iBufLen);
 
 void io_get_temperature(char * pcBuf, int iBufLen);
 void io_get_power(char * pcBuf, int iBufLen, char * heater, int size);
+void io_get_status(char * pcBuf, int iBufLen);
 void io_start_bake(char * reflow_points, int size);
 
 void io_set_animation_speed(unsigned long ulSpeedPercent);
